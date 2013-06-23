@@ -1,8 +1,9 @@
 require './app/api_error'
 
 class Handler
-  def initialize(player_class)
+  def initialize(player_class, lobby_class)
     @player_class = player_class
+    @lobby_class = lobby_class
   end
 
   # Updates the position of the player
@@ -15,7 +16,9 @@ class Handler
 
   # Get the current game state for the given lobby
   def get_current_game_state(lobby_id)
-    ack # GameState
+    lobby = @lobby_class[lobby_id]
+    raise ApiError, "Lobby not found" if lobby.nil?
+    lobby.game_state
   end
 
   # Marks the game as finished

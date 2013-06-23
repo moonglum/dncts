@@ -2,10 +2,11 @@ require "./spec/spec_helper"
 require "./app/handler"
 
 describe Handler do
-  subject { Handler.new(player_class) }
+  let(:player_class) { double }
+  let(:lobby_class) { double }
+  subject { Handler.new(player_class, lobby_class) }
 
   describe "update_position" do
-    let(:player_class) { double }
     let(:player) { double }
     let(:player_id) { 1 }
     let(:lat) { "50.941448" }
@@ -33,6 +34,37 @@ describe Handler do
         double.as_null_object
       }
       expect(subject.update_position(player_id, lat, lon)).to eq(subject)
+    end
+  end
+
+  describe "get_current_game_state" do
+    let(:lobby) { double }
+    let(:lobby_id) { 1 }
+    let(:game_state) { double }
+
+    before do
+      allow(lobby_class).to receive(:[]).with(lobby_id).and_return {  
+        lobby
+      }
+      allow(lobby).to receive(:game_state).and_return {
+        game_state
+      }
+      allow(lobby).to receive(:started?).and_return {
+        true
+      }
+    end
+
+    it "should return the game state for a given lobby" do
+      expect(subject.get_current_game_state(lobby_id)).to eq(game_state)
+    end
+
+    it "should raise an exception if the lobby does not exist" do
+      allow(lobby_class).to receive(:[]).with(lobby_id).and_return {  
+        nil
+      }
+      expect {
+        subject.get_current_game_state(lobby_id)
+      }.to raise_exception(ApiError, "Lobby not found")
     end
   end
 end
