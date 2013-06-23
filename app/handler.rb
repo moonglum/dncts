@@ -7,7 +7,10 @@ class Handler
 
   # Updates the position of the player
   def update_position(player_id, lat, lon)
-    empty_response
+    player = @player_class[player_id]
+    raise ApiError, "Player not found" if player.nil?
+    player.update(:lat => lat, :lon => lon)
+    self
   end
 
   # Get the current game state for the given lobby
