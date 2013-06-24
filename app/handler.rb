@@ -6,6 +6,11 @@ class Handler
     @lobby_class = lobby_class
   end
 
+  # Greet the user
+  def root
+    { :welcome_message => "Don't cross the streams, my friend" }
+  end
+
   # Updates the position of the player
   def update_position(player_id, lat, lon)
     find_player(player_id).update(:lat => lat, :lon => lon)
@@ -84,21 +89,5 @@ private
     player = @player_class[player_id]
     raise ApiError, "Player not found" if player.nil?
     player
-  end
-
-  def ack
-    { :welcome_message => "Don't cross the streams, my friend" }
-  end
-
-  def empty_response
-    self
-  end
-
-  def root
-    ack
-  end
-
-  def test_error
-    raise ApiError, "Hey dude"
   end
 end
