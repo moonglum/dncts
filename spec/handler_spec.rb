@@ -169,5 +169,25 @@ describe Handler do
         }.to raise_exception(ApiError, "Lobby not found")
       end
     end
+
+    describe "create_lobby" do
+      let(:lobby_name) { "meinelobby" }
+      before {
+        allow(lobby_class).to receive(:create).with(lobby_name).and_return {  
+          lobby
+        }
+        allow(lobby).to receive(:id).and_return {
+          lobby_id
+        }
+      }
+      it "should create a new lobby" do
+        expect(lobby_class).to receive(:create).with(lobby_name)
+        subject.create_lobby(lobby_name)
+      end
+
+      it "should return the id of the new lobby" do
+        expect(subject.create_lobby(lobby_name)).to eq(lobby_id)
+      end
+    end
   end
 end

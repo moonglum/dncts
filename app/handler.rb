@@ -41,7 +41,7 @@ class Handler
 
   # Create a new lobby with a given name
   def create_lobby(name)
-    ack # lobby_id
+    @lobby_class.create(name).id
   end
 
   # Create a new player with a given name
