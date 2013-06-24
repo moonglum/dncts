@@ -32,7 +32,10 @@ class Handler
 
   # Post all statistics for the game
   def set_player_statistics(player_id, player_statistics)
-    empty_response
+    player = @player_class[player_id]
+    raise ApiError, "Player not found" if player.nil?
+    player.set_statistics(player_statistics)
+    self
   end
 
   # Get all information about a game (including players, edges)

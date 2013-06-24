@@ -125,4 +125,34 @@ describe Handler do
       }.to raise_exception(ApiError, "Lobby not found")
     end
   end
+
+  describe "set_player_statistics" do
+    let(:player) { double }
+    let(:player_id) { 1 }
+    let(:player_statistics) { double }
+
+    it "should set the player statistics for an existing player" do
+      allow(player_class).to receive(:[]).with(player_id).and_return {
+        player
+      }
+      expect(player).to receive(:set_statistics).with(player_statistics)
+      subject.set_player_statistics(player_id, player_statistics)
+    end
+
+    it "should raise an error if the player does not exist" do
+      allow(player_class).to receive(:[]).with(player_id).and_return {
+        nil
+      }
+      expect {
+        subject.set_player_statistics(player_id, player_statistics)
+      }.to raise_error(ApiError, "Player not found")
+    end
+
+    it "should return self" do
+      allow(player_class).to receive(:[]).with(player_id).and_return {
+        double.as_null_object
+      }
+      expect(subject.set_player_statistics(player_id, player_statistics)).to eq(subject)
+    end
+  end
 end
