@@ -46,7 +46,7 @@ class Handler
 
   # Create a new player with a given name
   def create_player(name)
-    ack # player_id
+    @player_class.create(name).id
   end
 
   # Let a player with a certain ID join a certain lobby

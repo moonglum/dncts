@@ -65,6 +65,28 @@ describe Handler do
         expect(subject.set_player_statistics(player_id, player_statistics)).to eq(subject)
       end
     end
+
+    describe "create_player" do
+      let(:player_name) { "moonglum" }
+
+      before {
+        allow(player_class).to receive(:create).with(player_name).and_return {  
+          player
+        }
+        allow(player).to receive(:id).and_return {
+          player_id
+        }
+      }
+
+      it "should create a new player" do
+        expect(player_class).to receive(:create).with(player_name)
+        subject.create_player(player_name)
+      end
+
+      it "should return the id of the new player" do
+        expect(subject.create_player(player_name)).to eq(player_id)
+      end
+    end
   end
 
   describe "interaction with lobby class" do
