@@ -36,7 +36,7 @@ class Handler
 
   # Get all information about a game (including players, edges)
   def get_game(lobby_id)
-    ack # Game
+    find_lobby(lobby_id).game
   end
 
   # Create a new lobby with a given name
