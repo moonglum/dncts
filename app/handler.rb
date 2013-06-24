@@ -62,12 +62,14 @@ class Handler
 
   # Start a game for a certain lobby with a given graph
   def start_game(lobby_id, graph)
-    empty_response
+    find_lobby(lobby_id).start_game(graph)
+    self
   end
 
   # Remove a player from a certain lobby
   def leave_lobby(player_id, lobby_id)
-    empty_response
+    find_lobby(lobby_id).remove_player(find_player(player_id))
+    self
   end
 
 private

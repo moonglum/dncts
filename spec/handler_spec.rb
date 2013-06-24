@@ -263,5 +263,67 @@ describe Handler do
         expect(subject.list_lobbies).to eq(lobby_ids)
       end
     end
+
+    describe "start_game" do
+      let(:graph) { double }
+
+      it "should start the game for an existing lobby" do
+        expect(lobby).to receive(:start_game).with(graph)
+        subject.start_game(lobby_id, graph)
+      end
+
+      it "should raise an exception if the lobby was not found" do
+        allow(lobby_class).to receive(:[]).with(lobby_id).and_return {
+          nil
+        }
+        expect {
+          subject.start_game(lobby_id, graph)
+        }.to raise_exception(ApiError, "Lobby not found")
+      end
+
+      it "should return self" do
+        allow(lobby).to receive(:start_game).with(graph)
+        expect(subject.start_game(lobby_id, graph)).to eq(subject)
+      end
+    end
+
+    describe "leave_lobby" do
+      let(:player_id) { 1 }
+      let(:player) { double }
+
+      before {
+        allow(player_class).to receive(:[]).with(player_id).and_return {
+          player
+        }
+      }
+
+      it "should remove an existing player to an existing lobby" do
+        expect(lobby).to receive(:remove_player).with(player)
+        subject.leave_lobby(player_id, lobby_id)
+      end
+
+      it "should raise an exception if the lobby was not found" do
+        allow(lobby_class).to receive(:[]).with(lobby_id).and_return {
+          nil
+        }
+        expect {
+          subject.leave_lobby(player_id, lobby_id)
+        }.to raise_exception(ApiError, "Lobby not found")
+      end
+
+      it "should raise an exception if the player was not found" do
+        allow(player_class).to receive(:[]).with(player_id).and_return {
+          nil
+        }
+        expect {
+          subject.leave_lobby(player_id, lobby_id)
+        }.to raise_exception(ApiError, "Player not found")
+      end
+
+      it "should return self" do
+        allow(lobby).to receive(:remove_player).with(player)
+        expect(subject.leave_lobby(player_id, lobby_id)).to eq(subject)
+      end
+    end
   end
 end
