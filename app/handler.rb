@@ -16,16 +16,12 @@ class Handler
 
   # Get the current game state for the given lobby
   def get_current_game_state(lobby_id)
-    lobby = @lobby_class[lobby_id]
-    raise ApiError, "Lobby not found" if lobby.nil?
-    lobby.game_state
+    find_lobby(lobby_id).game_state
   end
 
   # Marks the game as finished
   def finish_game(lobby_id)
-    lobby = @lobby_class[lobby_id]
-    raise ApiError, "Lobby not found" if lobby.nil?
-    lobby.finish_game
+    find_lobby(lobby_id).finish_game
   end
 
   # Get the final statistics for the game
@@ -74,6 +70,12 @@ class Handler
   end
 
 private
+
+  def find_lobby(lobby_id)
+    lobby = @lobby_class[lobby_id]
+    raise ApiError, "Lobby not found" if lobby.nil?
+    lobby
+  end
 
   def ack
     { :welcome_message => "Don't cross the streams, my friend" }
