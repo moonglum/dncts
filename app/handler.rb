@@ -8,9 +8,7 @@ class Handler
 
   # Updates the position of the player
   def update_position(player_id, lat, lon)
-    player = @player_class[player_id]
-    raise ApiError, "Player not found" if player.nil?
-    player.update(:lat => lat, :lon => lon)
+    find_player(player_id).update(:lat => lat, :lon => lon)
     self
   end
 
@@ -32,9 +30,7 @@ class Handler
 
   # Post all statistics for the game
   def set_player_statistics(player_id, player_statistics)
-    player = @player_class[player_id]
-    raise ApiError, "Player not found" if player.nil?
-    player.set_statistics(player_statistics)
+    find_player(player_id).set_statistics(player_statistics)
     self
   end
 
@@ -79,6 +75,12 @@ private
     lobby = @lobby_class[lobby_id]
     raise ApiError, "Lobby not found" if lobby.nil?
     lobby
+  end
+
+  def find_player(player_id)
+    player = @player_class[player_id]
+    raise ApiError, "Player not found" if player.nil?
+    player
   end
 
   def ack
