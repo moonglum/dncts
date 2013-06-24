@@ -21,6 +21,10 @@ describe Handler do
     }
 
     describe "update_position" do
+      before {
+        allow(player).to receive(:update).with(:lat => player_lat, :lon => player_lon)
+      }
+
       it "should update the position of an existing player" do
         expect(player).to receive(:update).with(:lat => player_lat, :lon => player_lon)
         subject.update_position(player_id, player_lat, player_lon)
@@ -36,14 +40,15 @@ describe Handler do
       end
 
       it "should return self" do
-        allow(player_class).to receive(:[]).with(player_id).and_return {
-          double.as_null_object
-        }
         expect(subject.update_position(player_id, player_lat, player_lon)).to eq(subject)
       end
     end
 
     describe "set_player_statistics" do
+      before {
+        allow(player).to receive(:set_statistics).with(player_statistics)
+      }
+
       it "should set the player statistics for an existing player" do
         expect(player).to receive(:set_statistics).with(player_statistics)
         subject.set_player_statistics(player_id, player_statistics)
@@ -59,9 +64,6 @@ describe Handler do
       end
 
       it "should return self" do
-        allow(player_class).to receive(:[]).with(player_id).and_return {
-          double.as_null_object
-        }
         expect(subject.set_player_statistics(player_id, player_statistics)).to eq(subject)
       end
     end
@@ -126,6 +128,10 @@ describe Handler do
     end
 
     describe "finish_game" do
+      before {
+        allow(lobby).to receive(:finish_game)
+      }
+
       it "should finish an existing game" do
         expect(lobby).to receive(:finish_game)
         subject.finish_game(lobby_id)
@@ -141,7 +147,6 @@ describe Handler do
       end
 
       it "should return self" do
-        allow(lobby).to receive(:finish_game)
         expect(subject.finish_game(lobby_id)).to eq(subject)
       end
     end
@@ -220,6 +225,7 @@ describe Handler do
         allow(player_class).to receive(:[]).with(player_id).and_return {
           player
         }
+        allow(lobby).to receive(:add_player).with(player)
       }
 
       it "should add an existing player to an existing lobby" do
@@ -246,7 +252,6 @@ describe Handler do
       end
 
       it "should return self" do
-        allow(lobby).to receive(:add_player).with(player)
         expect(subject.join_lobby(player_id, lobby_id)).to eq(subject)
       end
     end
@@ -267,6 +272,10 @@ describe Handler do
     describe "start_game" do
       let(:graph) { double }
 
+      before {
+        allow(lobby).to receive(:start_game).with(graph)
+      }
+
       it "should start the game for an existing lobby" do
         expect(lobby).to receive(:start_game).with(graph)
         subject.start_game(lobby_id, graph)
@@ -282,7 +291,6 @@ describe Handler do
       end
 
       it "should return self" do
-        allow(lobby).to receive(:start_game).with(graph)
         expect(subject.start_game(lobby_id, graph)).to eq(subject)
       end
     end
@@ -295,6 +303,7 @@ describe Handler do
         allow(player_class).to receive(:[]).with(player_id).and_return {
           player
         }
+        allow(lobby).to receive(:remove_player).with(player)
       }
 
       it "should remove an existing player to an existing lobby" do
@@ -321,7 +330,6 @@ describe Handler do
       end
 
       it "should return self" do
-        allow(lobby).to receive(:remove_player).with(player)
         expect(subject.leave_lobby(player_id, lobby_id)).to eq(subject)
       end
     end
