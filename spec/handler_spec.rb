@@ -97,4 +97,32 @@ describe Handler do
       expect(subject.finish_game(lobby_id)).to eq(subject)
     end
   end
+
+  describe "get_game_statistics" do
+    let(:lobby) { double }
+    let(:lobby_id) { 1 }
+    let(:game_statistics) { double }
+
+    before do
+      allow(lobby_class).to receive(:[]).with(lobby_id).and_return {  
+        lobby
+      }
+    end
+
+    it "should return the game statistics for a given lobby" do
+      allow(lobby).to receive(:game_statistics).and_return {  
+        game_statistics
+      }
+      expect(subject.get_game_statistics(lobby_id)).to eq(game_statistics)
+    end
+
+    it "should raise an error if the lobby was not found" do
+      allow(lobby_class).to receive(:[]).with(lobby_id).and_return {  
+        nil
+      }
+      expect {
+        subject.get_game_statistics(lobby_id)
+      }.to raise_exception(ApiError, "Lobby not found")
+    end
+  end
 end

@@ -27,7 +27,7 @@ class Handler
 
   # Get the final statistics for the game
   def get_game_statistics(lobby_id)
-    ack # GameStatistic
+    find_lobby(lobby_id).game_statistics
   end
 
   # Post all statistics for the game
