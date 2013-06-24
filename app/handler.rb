@@ -51,7 +51,8 @@ class Handler
 
   # Let a player with a certain ID join a certain lobby
   def join_lobby(player_id, lobby_id)
-    empty_response
+    find_lobby(lobby_id).add_player(find_player(player_id))
+    self
   end
 
   # Get all available lobbies

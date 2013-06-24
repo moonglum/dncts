@@ -211,5 +211,44 @@ describe Handler do
         expect(subject.create_lobby(lobby_name)).to eq(lobby_id)
       end
     end
+
+    describe "join_lobby" do
+      let(:player_id) { 1 }
+      let(:player) { double }
+
+      before {
+        allow(player_class).to receive(:[]).with(player_id).and_return {
+          player
+        }
+      }
+
+      it "should add an existing player to an existing lobby" do
+        expect(lobby).to receive(:add_player).with(player)
+        subject.join_lobby(player_id, lobby_id)
+      end
+
+      it "should raise an exception if the lobby was not found" do
+        allow(lobby_class).to receive(:[]).with(lobby_id).and_return {
+          nil
+        }
+        expect {
+          subject.join_lobby(player_id, lobby_id)
+        }.to raise_exception(ApiError, "Lobby not found")
+      end
+
+      it "should raise an exception if the player was not found" do
+        allow(player_class).to receive(:[]).with(player_id).and_return {
+          nil
+        }
+        expect {
+          subject.join_lobby(player_id, lobby_id)
+        }.to raise_exception(ApiError, "Player not found")
+      end
+
+      it "should return self" do
+        allow(lobby).to receive(:add_player).with(player)
+        expect(subject.join_lobby(player_id, lobby_id)).to eq(subject)
+      end
+    end
   end
 end
