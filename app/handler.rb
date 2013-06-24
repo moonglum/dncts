@@ -57,7 +57,7 @@ class Handler
 
   # Get all available lobbies
   def list_lobbies
-    ack # [lobby_id]
+    @lobby_class.all_ids
   end
 
   # Start a game for a certain lobby with a given graph

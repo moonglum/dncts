@@ -250,5 +250,18 @@ describe Handler do
         expect(subject.join_lobby(player_id, lobby_id)).to eq(subject)
       end
     end
+
+    describe "list_lobbies" do
+      let(:lobby_ids) { double }
+      before {
+        allow(lobby_class).to receive(:all_ids).and_return {
+          lobby_ids
+        }
+      }
+
+      it "should list the IDs of all lobbies" do
+        expect(subject.list_lobbies).to eq(lobby_ids)
+      end
+    end
   end
 end
