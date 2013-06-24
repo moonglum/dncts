@@ -91,5 +91,10 @@ describe Handler do
         subject.finish_game(lobby_id)
       }.to raise_exception(ApiError, "Lobby not found")
     end
+
+    it "should return self" do
+      allow(lobby).to receive(:finish_game)
+      expect(subject.finish_game(lobby_id)).to eq(subject)
+    end
   end
 end

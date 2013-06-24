@@ -22,6 +22,7 @@ class Handler
   # Marks the game as finished
   def finish_game(lobby_id)
     find_lobby(lobby_id).finish_game
+    self
   end
 
   # Get the final statistics for the game
