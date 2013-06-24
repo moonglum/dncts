@@ -67,4 +67,29 @@ describe Handler do
       }.to raise_exception(ApiError, "Lobby not found")
     end
   end
+
+  describe "finish_game" do
+    let(:lobby) { double }
+    let(:lobby_id) { 1 }
+
+    before do
+      allow(lobby_class).to receive(:[]).with(lobby_id).and_return {  
+        lobby
+      }
+    end
+
+    it "should finish an existing game" do
+      expect(lobby).to receive(:finish_game)
+      subject.finish_game(lobby_id)
+    end
+
+    it "should raise an error if the lobby was not found" do
+      allow(lobby_class).to receive(:[]).with(lobby_id).and_return {  
+        nil
+      }
+      expect {
+        subject.finish_game(lobby_id)
+      }.to raise_exception(ApiError, "Lobby not found")
+    end
+  end
 end

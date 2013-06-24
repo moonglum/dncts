@@ -23,7 +23,9 @@ class Handler
 
   # Marks the game as finished
   def finish_game(lobby_id)
-    empty_response
+    lobby = @lobby_class[lobby_id]
+    raise ApiError, "Lobby not found" if lobby.nil?
+    lobby.finish_game
   end
 
   # Get the final statistics for the game
