@@ -35,10 +35,18 @@ get '/' do
   json response
 end
 
-post '/position' do
-  handle.update_position @request_data.fetch("player_id"),
-    @request_data.fetch("lat"),
-    @request_data.fetch("lon")
+post '/update' do
+  player = @request_data.fetch("player")
+  handle.update_player player.fetch("id"),
+    player.fetch("lat"),
+    player.fetch("lon")
+
+  vertex = @request_data.fetch("vertex")
+  handle.update_vertex vertex.fetch("id"),
+    vertex.fetch("lat"),
+    vertex.fetch("lon"),
+    vertex.fetch("carrier")
+
   status 204
 end
 

@@ -11,10 +11,14 @@ class Handler
     { :welcome_message => "Don't cross the streams, my friend" }
   end
 
-  # Updates the position of the player
-  def update_position(player_id, lat, lon)
+  # Updates a player
+  def update_player(player_id, lat, lon)
     find_player(player_id).update(:lat => lat, :lon => lon)
     self
+  end
+
+  # Updates a vertex
+  def update_vertex(vertex_id, lat, lon, carrier)
   end
 
   # Get the current game state for the given lobby

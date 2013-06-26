@@ -20,14 +20,14 @@ describe Handler do
       }
     }
 
-    describe "update_position" do
+    describe "update_player" do
       before {
         allow(player).to receive(:update).with(:lat => player_lat, :lon => player_lon)
       }
 
       it "should update the position of an existing player" do
         expect(player).to receive(:update).with(:lat => player_lat, :lon => player_lon)
-        subject.update_position(player_id, player_lat, player_lon)
+        subject.update_player(player_id, player_lat, player_lon)
       end
 
       it "should raise an exception if the player was not found" do
@@ -35,12 +35,12 @@ describe Handler do
           nil
         }
         expect {
-          subject.update_position(player_id, player_lat, player_lon)
+          subject.update_player(player_id, player_lat, player_lon)
         }.to raise_exception(ApiError, "Player not found")
       end
 
       it "should return self" do
-        expect(subject.update_position(player_id, player_lat, player_lon)).to eq(subject)
+        expect(subject.update_player(player_id, player_lat, player_lon)).to eq(subject)
       end
     end
 
