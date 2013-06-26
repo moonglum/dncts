@@ -4,7 +4,8 @@ require "./app/handler"
 describe Handler do
   let(:player_class) { double }
   let(:lobby_class) { double }
-  subject { Handler.new(player_class, lobby_class) }
+  let(:vertex_class) { double }
+  subject { Handler.new(player_class, lobby_class, vertex_class) }
 
   describe "interaction with player class" do
     let(:player) { double }
@@ -339,6 +340,45 @@ describe Handler do
 
       it "should return self" do
         expect(subject.leave_lobby(player_id, lobby_id)).to eq(subject)
+      end
+    end
+  end
+
+  describe "interaction with vertex class" do
+    describe "update_vertex" do
+      let(:vertex) { double }
+      let(:vertex_id) { double }
+      let(:lat) { double }
+      let(:lon) { double }
+      let(:carrier) { double }
+
+      before {
+        allow(vertex_class).to receive(:[]).with(vertex_id).and_return {
+          vertex
+        }
+        allow(vertex).to receive(:update)
+      }
+
+      it "should update an existing vertex" do
+        expect(vertex).to receive(:update).with({
+          :lat => lat,
+          :lon => lon,
+          :carrier => carrier
+        })
+        subject.update_vertex(vertex_id, lat, lon, carrier)
+      end
+
+      it "should raise an exception if the vertex was not found" do
+        allow(vertex_class).to receive(:[]).with(vertex_id).and_return {
+          nil
+        }
+        expect {
+          subject.update_vertex(vertex_id, lat, lon, carrier)
+        }.to raise_exception(ApiError, "Vertex not found")
+      end
+
+      it "should return self" do
+        expect(subject.update_vertex(vertex_id, lat, lon, carrier)).to eq(subject)
       end
     end
   end

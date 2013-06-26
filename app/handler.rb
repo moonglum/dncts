@@ -1,9 +1,10 @@
 require './app/api_error'
 
 class Handler
-  def initialize(player_class, lobby_class)
+  def initialize(player_class, lobby_class, vertex_class)
     @player_class = player_class
     @lobby_class = lobby_class
+    @vertex_class = vertex_class
   end
 
   # Greet the user
@@ -19,6 +20,8 @@ class Handler
 
   # Updates a vertex
   def update_vertex(vertex_id, lat, lon, carrier)
+    find_vertex(vertex_id).update(:lat => lat, :lon => lon, :carrier => carrier)
+    self
   end
 
   # Get the current game state for the given lobby
@@ -95,5 +98,11 @@ private
     player = @player_class[player_id]
     raise ApiError, "Player not found" if player.nil?
     player
+  end
+
+  def find_vertex(vertex_id)
+    vertex = @vertex_class[vertex_id]
+    raise ApiError, "Vertex not found" if vertex.nil?
+    vertex
   end
 end
