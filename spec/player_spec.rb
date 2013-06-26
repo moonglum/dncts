@@ -1,5 +1,4 @@
 require "./spec/spec_helper"
-require "ohm"
 require "./app/player"
 
 describe Player do

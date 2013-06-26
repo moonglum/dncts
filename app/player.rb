@@ -1,4 +1,5 @@
 require "json"
+require "ohm"
 
 class Player < Ohm::Model
   attribute :name
