@@ -14,6 +14,9 @@ describe Lobby do
     describe "game_statistics"
     describe "game"
     describe "id"
+    describe "lobby_name"
+    describe "vertices"
+    describe "edges"
     describe "add_player" # with(player)
     describe "start_game" # with(graph)
     describe "remove_player" # with(player)

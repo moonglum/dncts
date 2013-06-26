@@ -12,5 +12,7 @@ describe Player do
     describe "update"
     describe "set_statistics"
     describe "id"
+    describe "lat"
+    describe "lon"
   end
 end
