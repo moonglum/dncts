@@ -1,17 +1,11 @@
-require "json"
 require "ohm"
+require "ohm/contrib"
 
 class Player < Ohm::Model
+  include Ohm::DataTypes
+
   attribute :name
   attribute :lat
   attribute :lon
-  attribute :raw_statistics
-
-  def update_statistics(statistics)
-    update :raw_statistics => JSON.dump(statistics)
-  end
-
-  def statistics
-    JSON.parse get(:raw_statistics)
-  end
+  attribute :statistics, Type::Hash
 end

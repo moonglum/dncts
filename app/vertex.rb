@@ -1,9 +1,11 @@
 require "ohm"
-require "json"
+require "ohm/contrib"
 
 class Vertex < Ohm::Model
+  include Ohm::DataTypes
+
   attribute :lat
   attribute :lon
-  attribute :portable, lambda { |raw| raw == "true" || raw == true }
-  attribute :carrier, lambda { |raw| raw.to_i }
+  attribute :portable, Type::Boolean
+  attribute :carrier, Type::Integer
 end

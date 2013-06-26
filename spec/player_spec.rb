@@ -33,7 +33,7 @@ describe Player do
 
       it "should get the statistics back as they were stored" do
         player = Player.create
-        player.update_statistics statistics
+        player.update :statistics => statistics
         expect(player.statistics).to eq(statistics)
       end
     end
