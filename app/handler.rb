@@ -42,7 +42,7 @@ class Handler
 
   # Post all statistics for the game
   def set_player_statistics(player_id, player_statistics)
-    find_player(player_id).set_statistics(player_statistics)
+    find_player(player_id).update_statistics(player_statistics)
     self
   end
 

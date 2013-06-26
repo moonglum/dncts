@@ -47,11 +47,11 @@ describe Handler do
 
     describe "set_player_statistics" do
       before {
-        allow(player).to receive(:set_statistics).with(player_statistics)
+        allow(player).to receive(:update_statistics).with(player_statistics)
       }
 
       it "should set the player statistics for an existing player" do
-        expect(player).to receive(:set_statistics).with(player_statistics)
+        expect(player).to receive(:update_statistics).with(player_statistics)
         subject.set_player_statistics(player_id, player_statistics)
       end
 
