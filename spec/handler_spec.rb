@@ -72,7 +72,7 @@ describe Handler do
       let(:player_name) { "moonglum" }
 
       before {
-        allow(player_class).to receive(:create).with(player_name).and_return {  
+        allow(player_class).to receive(:create).with(:player_name => player_name).and_return {
           player
         }
         allow(player).to receive(:id).and_return {
@@ -81,7 +81,7 @@ describe Handler do
       }
 
       it "should create a new player" do
-        expect(player_class).to receive(:create).with(player_name)
+        expect(player_class).to receive(:create).with(:player_name => player_name)
         subject.create_player(player_name)
       end
 
@@ -200,7 +200,7 @@ describe Handler do
     describe "create_lobby" do
       let(:lobby_name) { "meinelobby" }
       before {
-        allow(lobby_class).to receive(:create).with(lobby_name).and_return {  
+        allow(lobby_class).to receive(:create).with(:lobby_name => lobby_name).and_return {
           lobby
         }
         allow(lobby).to receive(:id).and_return {
@@ -208,7 +208,7 @@ describe Handler do
         }
       }
       it "should create a new lobby" do
-        expect(lobby_class).to receive(:create).with(lobby_name)
+        expect(lobby_class).to receive(:create).with(:lobby_name => lobby_name)
         subject.create_lobby(lobby_name)
       end
 
