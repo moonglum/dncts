@@ -72,13 +72,13 @@ get '/game/:lobby_id' do
 end
 
 post '/lobby' do
-  response = handle.create_lobby @request_data.fetch("name")
+  response = handle.create_lobby @request_data.fetch("lobby_name")
   status 201
   json response
 end
 
 post '/player' do
-  response = handle.create_player @request_data.fetch("name")
+  response = handle.create_player @request_data.fetch("player_name")
   status 201
   json response
 end
