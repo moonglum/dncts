@@ -60,9 +60,11 @@ class Handler
     self
   end
 
-  # Get all available lobbies
+  # Get all available lobbies with name and ID
   def list_lobbies
-    @lobby_class.all_ids
+    @lobby_class.all.map do |lobby|
+      { :id => lobby.id, :lobby_name => lobby.lobby_name }
+    end
   end
 
   # Start a game for a certain lobby with a given graph

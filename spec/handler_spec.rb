@@ -257,15 +257,23 @@ describe Handler do
     end
 
     describe "list_lobbies" do
-      let(:lobby_ids) { double }
+      let(:lobby) { double }
+      let(:lobby_name) { double }
+      let(:lobby_id) { double }
+
       before {
-        allow(lobby_class).to receive(:all_ids).and_return {
-          lobby_ids
+        allow(lobby_class).to receive(:all).and_return {
+          [ lobby ]
         }
+        allow(lobby).to receive(:id).and_return { lobby_id }
+        allow(lobby).to receive(:lobby_name).and_return { lobby_name }
       }
 
       it "should list the IDs of all lobbies" do
-        expect(subject.list_lobbies).to eq(lobby_ids)
+        expect(subject.list_lobbies.first).to eq({
+          :id => lobby_id,
+          :lobby_name => lobby_name
+        })
       end
     end
 

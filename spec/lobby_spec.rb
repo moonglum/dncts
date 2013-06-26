@@ -5,7 +5,6 @@ describe Lobby do
   describe "class methods" do
     describe "[]" # with(lobby_id)
     describe "create" # with(lobby_name)
-    describe "all_ids"
   end
 
   describe "instance methods" do
