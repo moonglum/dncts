@@ -31,6 +31,18 @@ describe Lobby do
     "color" => color
   }]}
 
+  let(:player_id) { 12 }
+  let(:player_name) { "moonglum" }
+  let(:player_lat) { "50.941394" }
+  let(:player_lon) { "6.958416" }
+  let(:player_attributes) {{
+    "id" => player_id,
+    "player_name" => player_name,
+    "lat" => player_lat,
+    "lon" => player_lon
+  }}
+  let(:player) { Player.create(player_attributes) }
+
   it "should create, update and find a lobby and support all neccessary getters" do
     old_lobby = Lobby.create(:name => name)
     old_lobby.update(:name => new_name)
@@ -110,13 +122,6 @@ describe Lobby do
 
   describe "game" do
     subject { Lobby.create }
-    let(:player_attributes) {{
-      "id" => 12,
-      "player_name" => "moonglum",
-      "lat" => "50.941394",
-      "lon" => "6.958416"
-    }}
-    let(:player) { Player.create(player_attributes) }
 
     before {
       subject.update :vertices => vertices
@@ -138,7 +143,36 @@ describe Lobby do
   end
 
   describe "game_state" do
-    it "should return the game state"
+    subject { Lobby.create }
+
+    before {
+      player.join_lobby(subject)
+      subject.start_game({
+        "vertices" => vertices,
+        "edges" => edges
+      })
+    }
+
+    it "should return the game state's vertices" do
+      expect(subject.game_state["vertices"]).to eq([{
+        "id" => vertex_id,
+        "lat" => vertex_lat,
+        "lon" => vertex_lon,
+        "carrier" => vertex_carrier
+      }])
+    end
+
+    it "should return the game state's players" do
+      expect(subject.game_state["players"]).to eq([{
+        "id" => player_id,
+        "lat" => player_lat,
+        "lon" => player_lon
+      }])
+    end
+
+    it "should return the game state's is_finished" do
+      expect(subject.game_state["is_finished"]).to eq(false)
+    end
   end
 
   describe "game_statistics" do
