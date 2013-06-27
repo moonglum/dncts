@@ -13,6 +13,7 @@ class Lobby < Ohm::Model
   end
 
   def start_game(graph)
+    update :edges => graph.fetch("edges")
     update :started => true
   end
 
