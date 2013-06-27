@@ -6,6 +6,7 @@ class Lobby < Ohm::Model
 
   attribute :name
   attribute :edges, Type::Array
+  attribute :vertices, Type::Array
   attribute :started, Type::Boolean
 
   def started?
@@ -14,6 +15,7 @@ class Lobby < Ohm::Model
 
   def start_game(graph)
     update :edges => graph.fetch("edges")
+    update :vertices => graph.fetch("vertices")
     update :started => true
   end
 

@@ -9,6 +9,7 @@ describe Lobby do
   let(:name) { "The Game" }
   let(:new_name) { "Nice Game" }
   let(:edges) { [ { "vertex_a_id" => 12, "vertex_b_id" => 1, "color" => "red"  } ] }
+  let(:vertices) { [ { "vertex" => 12, "lat" => "50.941394", "lon" => "6.958416", "portable" => true, "carrier" => ""  } ] }
 
   it "should create, update and find a lobby and support all neccessary getters" do
     old_lobby = Lobby.create(:name => name)
@@ -24,6 +25,9 @@ describe Lobby do
     before {
       allow(graph).to receive(:fetch).with("edges").and_return {
         edges
+      }
+      allow(graph).to receive(:fetch).with("vertices").and_return {
+        vertices
       }
     }
 
@@ -50,6 +54,12 @@ describe Lobby do
       lobby.start_game(graph)
       expect(Lobby[lobby.id].edges).to eq(edges)
     end
+
+    it "should set the vertices of the game to the vertices of the given graph" do
+      lobby = Lobby.create
+      lobby.start_game(graph)
+      expect(Lobby[lobby.id].vertices).to eq(vertices)
+    end
   end
 
   describe "instance methods" do
@@ -57,7 +67,7 @@ describe Lobby do
     describe "game_statistics"
     describe "game"
 
-    describe "vertices"
+    describe "update_vertex" # with(id, lat, lon, carrier)
 
     describe "add_player" # with(player)
     describe "remove_player" # with(player)
