@@ -41,4 +41,12 @@ class Lobby < Ohm::Model
     end
     update :vertices => updated_vertices
   end
+
+  def game
+    {
+      "vertices" => vertices,
+      "edges" => edges,
+      "players" => players.map(&:to_hash_with_name_and_geo_coordinates)
+    }
+  end
 end

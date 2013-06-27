@@ -22,6 +22,14 @@ describe Lobby do
     "portable" => vertex_portable,
     "carrier" => vertex_carrier
   }]}
+  let(:vertex_a_id) { 43 }
+  let(:vertex_b_id) { 41 }
+  let(:color) { "red" }
+  let(:edges) {[{
+    "vertex_a_id" => vertex_a_id,
+    "vertex_b_id" => vertex_b_id,
+    "color" => color
+  }]}
 
   it "should create, update and find a lobby and support all neccessary getters" do
     old_lobby = Lobby.create(:name => name)
@@ -100,9 +108,40 @@ describe Lobby do
     end
   end
 
-  describe "instance methods" do
-    describe "game_state"
-    describe "game_statistics"
-    describe "game"
+  describe "game" do
+    subject { Lobby.create }
+    let(:player_attributes) {{
+      "id" => 12,
+      "player_name" => "moonglum",
+      "lat" => "50.941394",
+      "lon" => "6.958416"
+    }}
+    let(:player) { Player.create(player_attributes) }
+
+    before {
+      subject.update :vertices => vertices
+      subject.update :edges => edges
+      player.join_lobby(subject)
+    }
+
+    it "should return the game's vertices" do
+      expect(subject.game["vertices"]).to eq(vertices)
+    end
+
+    it "should return the game's edges" do
+      expect(subject.game["edges"]).to eq(edges)
+    end
+
+    it "should return the game's players" do
+      expect(subject.game["players"].first).to eq(player_attributes)
+    end
+  end
+
+  describe "game_state" do
+    it "should return the game state"
+  end
+
+  describe "game_statistics" do
+    it "should return the game statistics"
   end
 end
