@@ -19,6 +19,28 @@ describe Lobby do
     expect(lobby.edges).to eq(edges)
   end
 
+  describe "starting and finishing games" do
+    let(:graph) { double }
+
+    it "should know that a game was not started yet" do
+      lobby = Lobby.create
+      expect(Lobby[lobby.id].started?).to eq(false)
+    end
+
+    it "should be able to start a game" do
+      lobby = Lobby.create
+      lobby.start_game(graph)
+      expect(Lobby[lobby.id].started?).to eq(true)
+    end
+
+    it "should be able to finish a game" do
+      lobby = Lobby.create
+      lobby.start_game(graph)
+      lobby.finish_game
+      expect(Lobby[lobby.id].started?).to eq(false)
+    end
+  end
+
   describe "instance methods" do
     describe "game_state"
     describe "game_statistics"
@@ -28,9 +50,5 @@ describe Lobby do
 
     describe "add_player" # with(player)
     describe "remove_player" # with(player)
-
-    describe "start_game" # with(graph)
-    describe "started?"
-    describe "finish_game"
   end
 end
