@@ -10,7 +10,18 @@ describe Lobby do
   let(:new_name) { "Nice Game" }
   let(:edges) { [ { "vertex_a_id" => 12, "vertex_b_id" => 1, "color" => "red"  } ] }
 
-  let(:vertices) { [ { "id" => 12, "lat" => "50.941394", "lon" => "6.958416", "portable" => true, "carrier" => ""  } ] }
+  let(:vertex_id) { 12 }
+  let(:vertex_lat) { "50.941394" }
+  let(:vertex_lon) { "6.958416" }
+  let(:vertex_portable) { true }
+  let(:vertex_carrier) { "" }
+  let(:vertices) {[{
+    "id" => vertex_id,
+    "lat" => vertex_lat,
+    "lon" => vertex_lon,
+    "portable" => vertex_portable,
+    "carrier" => vertex_carrier
+  }]}
 
   it "should create, update and find a lobby and support all neccessary getters" do
     old_lobby = Lobby.create(:name => name)
@@ -63,12 +74,36 @@ describe Lobby do
     end
   end
 
+  describe "update_vertex" do
+    subject { Lobby.create }
+    let(:new_carrier) { 12 }
+    let(:other_vertex_id) { 43 }
+
+    it "should update an existing vertex with the right ID" do
+      subject.update :vertices => vertices
+      subject.update_vertex(vertex_id, vertex_lat, vertex_lon, new_carrier)
+      expect(subject.vertices).to eq([
+        {
+          "id" => vertex_id,
+          "lat" => vertex_lat,
+          "lon" => vertex_lon,
+          "portable" => vertex_portable,
+          "carrier" => new_carrier
+        }
+      ])
+    end
+
+    it "should not update an existing vertex with a different ID" do
+      subject.update :vertices => vertices
+      subject.update_vertex(other_vertex_id, vertex_lat, vertex_lon, new_carrier)
+      expect(subject.vertices).to eq(vertices)
+    end
+  end
+
   describe "instance methods" do
     describe "game_state"
     describe "game_statistics"
     describe "game"
-
-    describe "update_vertex" # with(id, lat, lon, carrier)
 
     describe "add_player" # with(player)
     describe "remove_player" # with(player)

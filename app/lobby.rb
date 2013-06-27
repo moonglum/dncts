@@ -22,4 +22,21 @@ class Lobby < Ohm::Model
   def finish_game
     update :started => false
   end
+
+  def update_vertex(id, lat, lon, carrier)
+    updated_vertices = vertices.map do |vertex|
+      if vertex.fetch("id") == id
+        {
+          "id" => id,
+          "lat" => lat,
+          "lon" => lon,
+          "portable" => vertex.fetch("portable"),
+          "carrier" => carrier
+        }
+      else
+        vertex
+      end
+    end
+    update :vertices => updated_vertices
+  end
 end
