@@ -1,5 +1,6 @@
 require "ohm"
 require "ohm/contrib"
+require "./app/player"
 
 class Lobby < Ohm::Model
   include Ohm::DataTypes
@@ -8,6 +9,7 @@ class Lobby < Ohm::Model
   attribute :edges, Type::Array
   attribute :vertices, Type::Array
   attribute :started, Type::Boolean
+  collection :players, :Player
 
   def started?
     started

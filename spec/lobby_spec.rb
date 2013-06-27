@@ -104,8 +104,5 @@ describe Lobby do
     describe "game_state"
     describe "game_statistics"
     describe "game"
-
-    describe "add_player" # with(player)
-    describe "remove_player" # with(player)
   end
 end

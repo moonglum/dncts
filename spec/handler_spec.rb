@@ -226,11 +226,11 @@ describe Handler do
         allow(player_class).to receive(:[]).with(player_id).and_return {
           player
         }
-        allow(lobby).to receive(:add_player).with(player)
+        allow(player).to receive(:join_lobby).with(lobby)
       }
 
       it "should add an existing player to an existing lobby" do
-        expect(lobby).to receive(:add_player).with(player)
+        expect(player).to receive(:join_lobby).with(lobby)
         subject.join_lobby(player_id, lobby_id)
       end
 
@@ -312,21 +312,12 @@ describe Handler do
         allow(player_class).to receive(:[]).with(player_id).and_return {
           player
         }
-        allow(lobby).to receive(:remove_player).with(player)
+        allow(player).to receive(:leave_lobby)
       }
 
       it "should remove an existing player to an existing lobby" do
-        expect(lobby).to receive(:remove_player).with(player)
+        expect(player).to receive(:leave_lobby)
         subject.leave_lobby(player_id, lobby_id)
-      end
-
-      it "should raise an exception if the lobby was not found" do
-        allow(lobby_class).to receive(:[]).with(lobby_id).and_return {
-          nil
-        }
-        expect {
-          subject.leave_lobby(player_id, lobby_id)
-        }.to raise_exception(ApiError, "Lobby not found")
       end
 
       it "should raise an exception if the player was not found" do
@@ -351,34 +342,31 @@ describe Handler do
       let(:lat) { double }
       let(:lon) { double }
       let(:carrier) { double }
+      let(:player_id) { double }
+      let(:player) { double }
+      let(:lobby) { double }
 
       before {
         allow(vertex_class).to receive(:[]).with(vertex_id).and_return {
           vertex
         }
         allow(vertex).to receive(:update)
+        allow(player_class).to receive(:[]).with(player_id).and_return {
+          player
+        }
+        allow(player).to receive(:lobby).and_return {
+          lobby
+        }
+        allow(lobby).to receive(:update_vertex).with(vertex_id, lat, lon, carrier)
       }
 
       it "should update an existing vertex" do
-        expect(vertex).to receive(:update).with({
-          :lat => lat,
-          :lon => lon,
-          :carrier => carrier
-        })
-        subject.update_vertex(vertex_id, lat, lon, carrier)
-      end
-
-      it "should raise an exception if the vertex was not found" do
-        allow(vertex_class).to receive(:[]).with(vertex_id).and_return {
-          nil
-        }
-        expect {
-          subject.update_vertex(vertex_id, lat, lon, carrier)
-        }.to raise_exception(ApiError, "Vertex not found")
+        expect(lobby).to receive(:update_vertex).with(vertex_id, lat, lon, carrier)
+        subject.update_vertex(player_id, vertex_id, lat, lon, carrier)
       end
 
       it "should return self" do
-        expect(subject.update_vertex(vertex_id, lat, lon, carrier)).to eq(subject)
+        expect(subject.update_vertex(player_id, vertex_id, lat, lon, carrier)).to eq(subject)
       end
     end
   end

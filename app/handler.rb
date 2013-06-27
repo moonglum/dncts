@@ -19,8 +19,9 @@ class Handler
   end
 
   # Updates a vertex
-  def update_vertex(vertex_id, lat, lon, carrier)
-    find_vertex(vertex_id).update(:lat => lat, :lon => lon, :carrier => carrier)
+  def update_vertex(player_id, vertex_id, lat, lon, carrier)
+    lobby = find_lobby_for_player_id(player_id)
+    lobby.update_vertex(vertex_id, lat, lon, carrier)
     self
   end
 
@@ -63,7 +64,7 @@ class Handler
 
   # Let a player with a certain ID join a certain lobby
   def join_lobby(player_id, lobby_id)
-    find_lobby(lobby_id).add_player(find_player(player_id))
+    find_player(player_id).join_lobby(find_lobby(lobby_id))
     self
   end
 
@@ -82,7 +83,7 @@ class Handler
 
   # Remove a player from a certain lobby
   def leave_lobby(player_id, lobby_id)
-    find_lobby(lobby_id).remove_player(find_player(player_id))
+    find_player(player_id).leave_lobby
     self
   end
 
@@ -104,5 +105,9 @@ private
     vertex = @vertex_class[vertex_id]
     raise ApiError, "Vertex not found" if vertex.nil?
     vertex
+  end
+
+  def find_lobby_for_player_id(player_id)
+    find_player(player_id).lobby
   end
 end
