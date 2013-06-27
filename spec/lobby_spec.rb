@@ -9,7 +9,8 @@ describe Lobby do
   let(:name) { "The Game" }
   let(:new_name) { "Nice Game" }
   let(:edges) { [ { "vertex_a_id" => 12, "vertex_b_id" => 1, "color" => "red"  } ] }
-  let(:vertices) { [ { "vertex" => 12, "lat" => "50.941394", "lon" => "6.958416", "portable" => true, "carrier" => ""  } ] }
+
+  let(:vertices) { [ { "id" => 12, "lat" => "50.941394", "lon" => "6.958416", "portable" => true, "carrier" => ""  } ] }
 
   it "should create, update and find a lobby and support all neccessary getters" do
     old_lobby = Lobby.create(:name => name)
