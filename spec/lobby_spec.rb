@@ -176,6 +176,22 @@ describe Lobby do
   end
 
   describe "game_statistics" do
-    it "should return the game statistics"
+    subject { Lobby.create }
+    let(:player_1) { Player.create }
+    let(:player_2) { Player.create }
+    let(:player_1_stats) { { "distance" => 1, "different_vertices_touched" => 2, "total_vertices_touched" => 3 } }
+    let(:player_2_stats) { { "distance" => 4, "different_vertices_touched" => 5, "total_vertices_touched" => 6 } }
+
+    before {
+      player_1.update :statistics => player_1_stats
+      player_1.join_lobby(subject)
+      player_2.update :statistics => player_2_stats
+      player_2.join_lobby(subject)
+    }
+
+    it "should return the game statistics" do
+      expect(subject.game_statistics[player_1.id.to_i]).to eq(player_1_stats)
+      expect(subject.game_statistics[player_2.id.to_i]).to eq(player_2_stats)
+    end
   end
 end
