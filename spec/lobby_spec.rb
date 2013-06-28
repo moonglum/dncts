@@ -8,9 +8,9 @@ describe Lobby do
 
   let(:name) { "The Game" }
   let(:new_name) { "Nice Game" }
-  let(:edges) { [ { "vertex_a_id" => 12, "vertex_b_id" => 1, "color" => "red"  } ] }
+  let(:edges) { [ { "vertex_a_id" => "12", "vertex_b_id" => "1", "color" => "red"  } ] }
 
-  let(:vertex_id) { 12 }
+  let(:vertex_id) { "12" }
   let(:vertex_lat) { "50.941394" }
   let(:vertex_lon) { "6.958416" }
   let(:vertex_portable) { true }
@@ -22,8 +22,8 @@ describe Lobby do
     "portable" => vertex_portable,
     "carrier" => vertex_carrier
   }]}
-  let(:vertex_a_id) { 43 }
-  let(:vertex_b_id) { 41 }
+  let(:vertex_a_id) { "43" }
+  let(:vertex_b_id) { "41" }
   let(:color) { "red" }
   let(:edges) {[{
     "vertex_a_id" => vertex_a_id,
@@ -31,7 +31,7 @@ describe Lobby do
     "color" => color
   }]}
 
-  let(:player_id) { 12 }
+  let(:player_id) { "12" }
   let(:player_name) { "moonglum" }
   let(:player_lat) { "50.941394" }
   let(:player_lon) { "6.958416" }
@@ -44,11 +44,11 @@ describe Lobby do
   let(:player) { Player.create(player_attributes) }
 
   it "should create, update and find a lobby and support all neccessary getters" do
-    old_lobby = Lobby.create(:name => name)
-    old_lobby.update(:name => new_name)
+    old_lobby = Lobby.create(:lobby_name => name)
+    old_lobby.update(:lobby_name => new_name)
     lobby = Lobby[old_lobby.id]
     expect(old_lobby).to eq(lobby)
-    expect(lobby.name).to eq(new_name)
+    expect(lobby.lobby_name).to eq(new_name)
   end
 
   describe "starting and finishing games" do
@@ -96,8 +96,8 @@ describe Lobby do
 
   describe "update_vertex" do
     subject { Lobby.create }
-    let(:new_carrier) { 12 }
-    let(:other_vertex_id) { 43 }
+    let(:new_carrier) { "12" }
+    let(:other_vertex_id) { "43" }
 
     it "should update an existing vertex with the right ID" do
       subject.update :vertices => vertices
@@ -190,8 +190,8 @@ describe Lobby do
     }
 
     it "should return the game statistics" do
-      expect(subject.game_statistics[player_1.id.to_i]).to eq(player_1_stats)
-      expect(subject.game_statistics[player_2.id.to_i]).to eq(player_2_stats)
+      expect(subject.game_statistics[player_1.id]).to eq(player_1_stats)
+      expect(subject.game_statistics[player_2.id]).to eq(player_2_stats)
     end
   end
 end

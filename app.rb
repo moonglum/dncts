@@ -9,6 +9,19 @@ set :json_encoder, JSON
 require './app/handler'
 handle = Handler.new
 
+require 'ohm'
+host = ENV["HOST"]
+port = ENV["PORT"]
+password = ENV["PASSWORD"]
+
+if host.nil? or port.nil? or password.nil?
+  puts "Going into development mode"
+  Ohm.connect
+else
+  puts "Going into production mode"
+  Ohm.connect :host => host, :port => port, :password => password
+end
+
 before do
   begin
     @request_data = JSON.parse(request.body.read)

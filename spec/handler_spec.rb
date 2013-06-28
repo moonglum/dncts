@@ -86,7 +86,7 @@ describe Handler do
       end
 
       it "should return the id of the new player" do
-        expect(subject.create_player(player_name)).to eq(player_id)
+        expect(subject.create_player(player_name)).to eq({"player_id" => player_id})
       end
     end
   end
@@ -213,7 +213,7 @@ describe Handler do
       end
 
       it "should return the id of the new lobby" do
-        expect(subject.create_lobby(lobby_name)).to eq(lobby_id)
+        expect(subject.create_lobby(lobby_name)).to eq({"lobby_id" => lobby_id})
       end
     end
 

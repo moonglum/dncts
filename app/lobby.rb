@@ -5,7 +5,7 @@ require "./app/player"
 class Lobby < Ohm::Model
   include Ohm::DataTypes
 
-  attribute :name
+  attribute :lobby_name
   attribute :edges, Type::Array
   attribute :vertices, Type::Array
   attribute :started, Type::Boolean
@@ -59,7 +59,7 @@ class Lobby < Ohm::Model
   end
 
   def game_statistics
-    players.each_with_object({}) { |player, stats| stats[player.id.to_i] = player.statistics }
+    players.each_with_object({}) { |player, stats| stats[player.id] = player.statistics }
   end
 
 private

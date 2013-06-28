@@ -21,7 +21,7 @@ class Player < Ohm::Model
 
   def to_hash_with_name_and_geo_coordinates
     {
-      "id" => id.to_i,
+      "id" => id,
       "player_name" => player_name,
       "lat" => lat,
       "lon" => lon
@@ -30,7 +30,7 @@ class Player < Ohm::Model
 
   def to_hash_with_geo_coordinates
     {
-      "id" => id.to_i,
+      "id" => id,
       "lat" => lat,
       "lon" => lon
     }

@@ -31,7 +31,7 @@ describe Player do
     it "should return the player name and the geo coordinates" do
       player = Player.create(:player_name => name, :lat => lat, :lon => lon)
       expect(player.to_hash_with_name_and_geo_coordinates).to eq({
-        "id" => player.id.to_i,
+        "id" => player.id,
         "player_name" => name,
         "lat" => lat,
         "lon" => lon
@@ -43,7 +43,7 @@ describe Player do
     it "should return the the geo coordinates" do
       player = Player.create(:player_name => name, :lat => lat, :lon => lon)
       expect(player.to_hash_with_geo_coordinates).to eq({
-        "id" => player.id.to_i,
+        "id" => player.id,
         "lat" => lat,
         "lon" => lon
       })
