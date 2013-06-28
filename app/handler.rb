@@ -1,10 +1,11 @@
 require './app/api_error'
+require './app/player'
+require './app/lobby'
 
 class Handler
-  def initialize(player_class, lobby_class, vertex_class)
+  def initialize(player_class = Player, lobby_class = Lobby)
     @player_class = player_class
     @lobby_class = lobby_class
-    @vertex_class = vertex_class
   end
 
   # Greet the user
@@ -99,12 +100,6 @@ private
     player = @player_class[player_id]
     raise ApiError, "Player not found" if player.nil?
     player
-  end
-
-  def find_vertex(vertex_id)
-    vertex = @vertex_class[vertex_id]
-    raise ApiError, "Vertex not found" if vertex.nil?
-    vertex
   end
 
   def find_lobby_for_player_id(player_id)

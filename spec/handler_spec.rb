@@ -4,8 +4,7 @@ require "./app/handler"
 describe Handler do
   let(:player_class) { double }
   let(:lobby_class) { double }
-  let(:vertex_class) { double }
-  subject { Handler.new(player_class, lobby_class, vertex_class) }
+  subject { Handler.new(player_class, lobby_class) }
 
   describe "interaction with player class" do
     let(:player) { double }
@@ -347,10 +346,6 @@ describe Handler do
       let(:lobby) { double }
 
       before {
-        allow(vertex_class).to receive(:[]).with(vertex_id).and_return {
-          vertex
-        }
-        allow(vertex).to receive(:update)
         allow(player_class).to receive(:[]).with(player_id).and_return {
           player
         }
