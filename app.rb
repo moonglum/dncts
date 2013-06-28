@@ -10,9 +10,9 @@ require './app/handler'
 handle = Handler.new
 
 require 'ohm'
-host = ENV["HOST"]
-port = ENV["PORT"]
-password = ENV["PASSWORD"]
+host = ENV["REDIS_HOST"]
+port = ENV["REDIS_PORT"]
+password = ENV["REDIS_PASSWORD"]
 
 if host.nil? or port.nil? or password.nil?
   puts "Going into development mode"
