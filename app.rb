@@ -55,10 +55,12 @@ post '/update' do
     player.fetch("lon")
 
   vertex = @request_data.fetch("vertex")
-  handle.update_vertex vertex.fetch("id"),
-    vertex.fetch("lat"),
-    vertex.fetch("lon"),
-    vertex.fetch("carrier")
+  unless vertex == ""
+    handle.update_vertex vertex.fetch("id"),
+      vertex.fetch("lat"),
+      vertex.fetch("lon"),
+      vertex.fetch("carrier")
+  end
 
   status 204
 end

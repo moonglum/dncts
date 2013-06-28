@@ -49,7 +49,7 @@ When(/^the game of lobby '(.*)' is started with the '(.*)' graph$/) do |lobby_na
   server.start_game(lobby_name, graph)
 end
 
-Then(/^the lobby '(.*)' should contain (\d+) vertices and (\d+) edge$/) do |lobby_name, number_of_vertices, number_of_edges|
+Then(/^the lobby '(.*)' should contain (\d+) vertices and (\d+) edges?$/) do |lobby_name, number_of_vertices, number_of_edges|
   game = server.get_game_for_lobby(lobby_name)
   expect(game["vertices"].length).to be(number_of_vertices.to_i)
   expect(game["edges"].length).to be(number_of_edges.to_i)
