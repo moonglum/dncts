@@ -52,4 +52,12 @@ class Server
     lobby_id = @lobbies[lobby_name]
     @connection.get("/game/#{lobby_id}").body
   end
+
+  def start_game(lobby_name, graph)
+    lobby_id = @lobbies[lobby_name]
+    @connection.post("/game", {
+      "lobby_id" => lobby_id,
+      "graph" => graph
+    })
+  end
 end
