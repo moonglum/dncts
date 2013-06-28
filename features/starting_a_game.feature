@@ -1,4 +1,8 @@
 Feature: Starting a Game
+  Scenario: A lobby is created
+    Given lobby 'gummibaeren' was created
+    Then lobby 'gummibaeren' should be listed
+
   Scenario: A player joins a lobby
     Given player 'moonglum' registered
     And lobby 'gummibaeren' was created

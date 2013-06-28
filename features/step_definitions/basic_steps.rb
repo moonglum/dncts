@@ -18,6 +18,11 @@ When(/^player '(.*)' leaves lobby '(.*)'$/) do |player_name, lobby_name|
   server.leave_lobby(lobby_name, player_name)
 end
 
+Then(/^lobby '(.*)' should be listed$/) do |lobby_name|
+  lobbies = server.list_lobbies
+  expect(lobbies.any? { |lobby| lobby["lobby_name"] == lobby_name }).to be(true)
+end
+
 Then(/^the player '(.*)' should be in the game of lobby '(.*)'$/) do |player_name, lobby_name|
   game = server.get_game_for_lobby(lobby_name)
   expect(game["players"].any? { |player| player["player_name"] == player_name }).to be(true)

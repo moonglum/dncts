@@ -44,6 +44,10 @@ class Server
     })
   end
 
+  def list_lobbies
+    @connection.get("/lobbies").body
+  end
+
   def get_game_for_lobby(lobby_name)
     lobby_id = @lobbies[lobby_name]
     @connection.get("/game/#{lobby_id}").body
