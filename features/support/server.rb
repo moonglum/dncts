@@ -35,6 +35,15 @@ class Server
     })
   end
 
+  def leave_lobby(lobby_name, player_name)
+    lobby_id = @lobbies[lobby_name]
+    player_id = @players[player_name]
+    @connection.post("/leaveLobby", {
+      "lobby_id" => lobby_id,
+      "player_id" => player_id
+    })
+  end
+
   def get_game_for_lobby(lobby_name)
     lobby_id = @lobbies[lobby_name]
     @connection.get("/game/#{lobby_id}").body
