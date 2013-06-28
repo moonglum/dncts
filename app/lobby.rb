@@ -46,7 +46,8 @@ class Lobby < Ohm::Model
     {
       "vertices" => vertices,
       "edges" => edges,
-      "players" => players.map(&:to_hash_with_name_and_geo_coordinates)
+      "players" => players.map(&:to_hash_with_name_and_geo_coordinates),
+      "is_started" => started?
     }
   end
 

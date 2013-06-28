@@ -140,6 +140,10 @@ describe Lobby do
     it "should return the game's players" do
       expect(subject.game["players"].first).to eq(player_attributes)
     end
+
+    it "should return if the game was started" do
+      expect(subject.game["is_started"]).to eq(false)
+    end
   end
 
   describe "game_state" do
