@@ -32,3 +32,8 @@ Then(/^the player '(.*)' should not be in the game of lobby '(.*)'$/) do |player
   game = server.get_game_for_lobby(lobby_name)
   expect(game["players"].any? { |player| player["player_name"] == player_name }).to be(false)
 end
+
+Then(/^the game of lobby '(.*)' should not be started$/) do |lobby_name|
+  game = server.get_game_for_lobby(lobby_name)
+  expect(game["is_started"]).to be(false)
+end
