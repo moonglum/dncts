@@ -108,3 +108,8 @@ Then(/^vertex '(\d+)' in the game '(.*)' should be dropped$/) do |vertex_id, lob
     vertex["id"] == vertex_id and vertex["carrier"] == ""
   }).to be(true)
 end
+
+Then(/^the game '(.*)' should not be finished$/) do |lobby_name|
+  game_state = server.get_game_state_for_lobby(lobby_name)
+  expect(game_state["is_finished"]).to eq(false)
+end
