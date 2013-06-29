@@ -72,8 +72,9 @@ When(/^player '(.*)' sets his or her position to "(.*?)","(.*?)"$/) do |player_n
 end
 
 Then(/^the position of player '(.*)' in the game '(.*)' should be "(.*?)","(.*?)"$/) do |player_name, lobby_name, lat, lon|
+  player_id = server.players[player_name]
   game_state = server.get_game_state_for_lobby(lobby_name)
   expect(game_state["players"].any? { |player|
-    player["player_name"] == player_name and player["lat"] == lat and player["lon"] == lon
-  }).to be(false)
+    player["id"] == player_id and player["lat"] == lat and player["lon"] == lon
+  }).to be(true)
 end
