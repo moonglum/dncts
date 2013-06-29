@@ -69,6 +69,13 @@ class Server
     })
   end
 
+  def finish_game_for_lobby(lobby_name)
+    lobby_id = @lobbies[lobby_name]
+    @connection.post("/finishGame", {
+      "lobby_id" => lobby_id
+    })
+  end
+
   def update(data)
     @connection.post("/update", data)
   end

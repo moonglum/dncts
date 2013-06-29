@@ -113,3 +113,12 @@ Then(/^the game '(.*)' should not be finished$/) do |lobby_name|
   game_state = server.get_game_state_for_lobby(lobby_name)
   expect(game_state["is_finished"]).to eq(false)
 end
+
+When(/^the game '(.*)' is finished$/) do |lobby_name|
+  server.finish_game_for_lobby(lobby_name)
+end
+
+Then(/^the game '(.*)' should be finished$/) do |lobby_name|
+  game_state = server.get_game_state_for_lobby(lobby_name)
+  expect(game_state["is_finished"]).to eq(true)
+end
