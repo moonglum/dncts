@@ -50,13 +50,15 @@ end
 
 post '/update' do
   player = @request_data.fetch("player")
-  handle.update_player player.fetch("id"),
+  player_id = player.fetch("id")
+  handle.update_player player_id,
     player.fetch("lat"),
     player.fetch("lon")
 
   vertex = @request_data.fetch("vertex")
   unless vertex == ""
-    handle.update_vertex vertex.fetch("id"),
+    handle.update_vertex player_id,
+      vertex.fetch("id"),
       vertex.fetch("lat"),
       vertex.fetch("lon"),
       vertex.fetch("carrier")
