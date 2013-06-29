@@ -93,3 +93,18 @@ Then(/^the position of vertex '(\d+)' in the game '(.*)' should be "(.*?)","(.*?
     vertex["id"] == vertex_id and vertex["lat"] == lat and vertex["lon"] == lon
   }).to be(true)
 end
+
+When(/^player '(.*)' drops the vertex '(\d+)' and sets his or her position to "(.*?)","(.*?)"$/) do |player_name, vertex_id, lat, lon|
+  player_id = server.players[player_name]
+  server.update({
+    "player" => { "id" => player_id, "lat" => lat, "lon" => lon },
+    "vertex" => { "id" => vertex_id, "lat" => lat, "lon" => lon, "carrier" => "" }
+  })
+end
+
+Then(/^vertex '(\d+)' in the game '(.*)' should be dropped$/) do |vertex_id, lobby_name|
+  game_state = server.get_game_state_for_lobby(lobby_name)
+  expect(game_state["vertices"].any? { |vertex|
+    vertex["id"] == vertex_id and vertex["carrier"] == ""
+  }).to be(true)
+end
