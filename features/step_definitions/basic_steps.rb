@@ -78,3 +78,18 @@ Then(/^the position of player '(.*)' in the game '(.*)' should be "(.*?)","(.*?)
     player["id"] == player_id and player["lat"] == lat and player["lon"] == lon
   }).to be(true)
 end
+
+When(/^player '(.*)' sets his or her position and the position of vertex "(.*?)" to "(.*?)","(.*?)"$/) do |player_name, vertex_id, lat, lon|
+  player_id = server.players[player_name]
+  server.update({
+    "player" => { "id" => player_id, "lat" => lat, "lon" => lon },
+    "vertex" => { "id" => vertex_id, "lat" => lat, "lon" => lon, "carrier" => player_id }
+  })
+end
+
+Then(/^the position of vertex '(\d+)' in the game '(.*)' should be "(.*?)","(.*?)"$/) do |vertex_id, lobby_name, lat, lon|
+  game_state = server.get_game_state_for_lobby(lobby_name)
+  expect(game_state["vertices"].any? { |vertex|
+    vertex["id"] == vertex_id and vertex["lat"] == lat and vertex["lon"] == lon
+  }).to be(true)
+end
