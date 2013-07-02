@@ -122,3 +122,17 @@ Then(/^the game '(.*)' should be finished$/) do |lobby_name|
   game_state = server.get_game_state_for_lobby(lobby_name)
   expect(game_state["is_finished"]).to eq(true)
 end
+
+When(/^the player '(.*)' has submitted his or statistics$/) do |player_name|
+  player_statistics = {
+    "distance" => 12,
+    "different_vertices_touched" => 121,
+    "total_vertices_touched" => 21
+  }
+  server.post_player_statistics_for_lobby(player_statistics, player_name)
+end
+
+Then(/^the game statistics of the game '(.*)' should contain the statistics of (\d+) player$/) do |lobby_name, size|
+  game_statistics = server.get_game_statistics_for_lobby(lobby_name)
+  expect(game_statistics.size).to be(size.to_i)
+end

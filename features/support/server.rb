@@ -79,4 +79,17 @@ class Server
   def update(data)
     @connection.post("/update", data)
   end
+
+  def get_game_statistics_for_lobby(lobby_name)
+    lobby_id = @lobbies[lobby_name]
+    @connection.get("/gameStatistics/#{lobby_id}").body
+  end
+
+  def post_player_statistics_for_lobby(player_statistics, player_name)
+    player_id = @players[player_name]
+    @connection.post("/playerStatistics", {
+      "player_id" => player_id,
+      "player_statistics" => player_statistics
+    })
+  end
 end

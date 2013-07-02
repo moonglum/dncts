@@ -79,21 +79,15 @@ post '/finishGame' do
 end
 
 get '/gameStatistics/:lobby_id' do
-  # FIXME:
-  status 500
-  json({ "error" => "Not implemented" })
-  # response = handle.get_game_statistics @request_data.fetch("lobby_id")
-  # status 200
-  # json response
+  response = handle.get_game_statistics params.fetch("lobby_id")
+  status 200
+  json response
 end
 
 post '/playerStatistics' do
-  # FIXME:
-  status 500
-  json({ "error" => "Not implemented" })
-  # handle.set_player_statistics @request_data.fetch("player_id"),
-  #   @request_data.fetch("player_statistics")
-  # status 204
+  handle.set_player_statistics @request_data.fetch("player_id"),
+    @request_data.fetch("player_statistics")
+  status 204
 end
 
 get '/game/:lobby_id' do

@@ -60,7 +60,9 @@ class Lobby < Ohm::Model
   end
 
   def game_statistics
-    players.each_with_object({}) { |player, stats| stats[player.id] = player.statistics }
+    players.each_with_object({}) {
+      |player, stats| stats[player.id] = player.statistics
+    }.delete_if { |_, value| value.nil? }
   end
 
 private

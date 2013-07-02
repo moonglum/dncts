@@ -187,15 +187,19 @@ describe Lobby do
     let(:player_2_stats) { { "distance" => 4, "different_vertices_touched" => 5, "total_vertices_touched" => 6 } }
 
     before {
-      player_1.update :statistics => player_1_stats
       player_1.join_lobby(subject)
-      player_2.update :statistics => player_2_stats
       player_2.join_lobby(subject)
+      player_1.update :statistics => player_1_stats
     }
 
     it "should return the game statistics" do
+      player_2.update :statistics => player_2_stats
       expect(subject.game_statistics[player_1.id]).to eq(player_1_stats)
       expect(subject.game_statistics[player_2.id]).to eq(player_2_stats)
+    end
+
+    it "should not include the statistics of players that have not yet posted them" do
+      expect(subject.game_statistics.size).to eq(1)
     end
   end
 end
