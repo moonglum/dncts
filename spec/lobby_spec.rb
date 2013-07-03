@@ -74,11 +74,28 @@ describe Lobby do
       expect(Lobby[lobby.id].started?).to eq(true)
     end
 
+    it "should reset all statistics when a game is started" do
+      lobby = Lobby.create
+      player = Player.create
+      player.join_lobby(lobby)
+      player.update :statistics => { "stats" => 5 }
+      lobby.start_game(graph)
+      expect(Player[player.id].statistics).to be_nil
+    end
+
     it "should be able to finish a game" do
       lobby = Lobby.create
       lobby.start_game(graph)
       lobby.finish_game
       expect(Lobby[lobby.id].started?).to eq(false)
+    end
+
+    it "should reset edges and vertices when a game is finish" do
+      lobby = Lobby.create
+      lobby.start_game(graph)
+      lobby.finish_game
+      expect(Lobby[lobby.id].edges).to be_nil
+      expect(Lobby[lobby.id].vertices).to be_nil
     end
 
     it "should set the edges of the game to the edges of the given graph" do

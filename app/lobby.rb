@@ -16,12 +16,15 @@ class Lobby < Ohm::Model
   end
 
   def start_game(graph)
+    players.each { |player| player.update :statistics => nil }
     update :edges => graph.fetch("edges")
     update :vertices => graph.fetch("vertices")
     update :started => true
   end
 
   def finish_game
+    update :edges => nil
+    update :vertices => nil
     update :started => false
   end
 
