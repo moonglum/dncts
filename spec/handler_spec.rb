@@ -86,7 +86,7 @@ describe Handler do
       end
 
       it "should return the id of the new player" do
-        expect(subject.create_player(player_name)).to eq({"player_id" => player_id})
+        expect(subject.create_player(player_name)).to eq({"id" => player_id})
       end
     end
   end
@@ -213,7 +213,7 @@ describe Handler do
       end
 
       it "should return the id of the new lobby" do
-        expect(subject.create_lobby(lobby_name)).to eq({"lobby_id" => lobby_id})
+        expect(subject.create_lobby(lobby_name)).to eq({"id" => lobby_id})
       end
     end
 
@@ -358,6 +358,16 @@ describe Handler do
       it "should update an existing vertex" do
         expect(lobby).to receive(:update_vertex).with(vertex_id, lat, lon, carrier)
         subject.update_vertex(player_id, vertex_id, lat, lon, carrier)
+      end
+
+      it "should raise an error if the player is not in a lobby" do
+        pending "Not implemented yet"
+        allow(player).to receive(:lobby).and_return {
+          nil
+        }
+        expect {
+          subject.update_vertex(player_id, vertex_id, lat, lon, carrier)
+        }.to raise_error(ApiError, "Player not in a lobby")
       end
 
       it "should return self" do
