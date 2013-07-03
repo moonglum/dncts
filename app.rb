@@ -74,7 +74,7 @@ get '/currentGameState/:lobby_id' do
 end
 
 post '/finishGame' do
-  handle.finish_game @request_data.fetch("lobby_id")
+  handle.finish_game @request_data.fetch("id")
   status 204
 end
 
@@ -85,7 +85,7 @@ get '/gameStatistics/:lobby_id' do
 end
 
 post '/playerStatistics' do
-  handle.set_player_statistics @request_data.fetch("player_id"),
+  handle.set_player_statistics @request_data.fetch("id"),
     @request_data.fetch("player_statistics")
   status 204
 end
@@ -121,7 +121,7 @@ get '/lobbies' do
 end
 
 post '/game' do
-  handle.start_game @request_data.fetch("lobby_id"),
+  handle.start_game @request_data.fetch("id"),
     @request_data.fetch("graph")
   status 204
 end

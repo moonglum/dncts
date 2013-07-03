@@ -21,12 +21,12 @@ class Server
 
   def create_player(player_name)
     response = @connection.post "/player", { "player_name" => player_name }
-    @players[player_name] = response.body["player_id"]
+    @players[player_name] = response.body["id"]
   end
 
   def create_lobby(lobby_name)
     response = @connection.post "/lobby", { "lobby_name" => lobby_name }
-    @lobbies[lobby_name] = response.body["lobby_id"]
+    @lobbies[lobby_name] = response.body["id"]
   end
 
   def join_lobby(lobby_name, player_name)
@@ -64,7 +64,7 @@ class Server
   def start_game(lobby_name, graph)
     lobby_id = @lobbies[lobby_name]
     @connection.post("/game", {
-      "lobby_id" => lobby_id,
+      "id" => lobby_id,
       "graph" => graph
     })
   end
@@ -72,7 +72,7 @@ class Server
   def finish_game_for_lobby(lobby_name)
     lobby_id = @lobbies[lobby_name]
     @connection.post("/finishGame", {
-      "lobby_id" => lobby_id
+      "id" => lobby_id
     })
   end
 
@@ -88,7 +88,7 @@ class Server
   def post_player_statistics_for_lobby(player_statistics, player_name)
     player_id = @players[player_name]
     @connection.post("/playerStatistics", {
-      "player_id" => player_id,
+      "id" => player_id,
       "player_statistics" => player_statistics
     })
   end

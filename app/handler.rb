@@ -56,14 +56,14 @@ class Handler
   # Create a new lobby with a given name
   def create_lobby(name)
     {
-      "lobby_id" => @lobby_class.create(:lobby_name => name).id
+      "id" => @lobby_class.create(:lobby_name => name).id
     }
   end
 
   # Create a new player with a given name
   def create_player(name)
     {
-      "player_id" => @player_class.create(:player_name => name).id
+      "id" => @player_class.create(:player_name => name).id
     }
   end
 
