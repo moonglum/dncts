@@ -107,6 +107,8 @@ private
   end
 
   def find_lobby_for_player_id(player_id)
-    find_player(player_id).lobby
+    lobby = find_player(player_id).lobby
+    raise ApiError, "Player not in a lobby" if lobby.nil?
+    lobby
   end
 end

@@ -361,7 +361,6 @@ describe Handler do
       end
 
       it "should raise an error if the player is not in a lobby" do
-        pending "Not implemented yet"
         allow(player).to receive(:lobby).and_return {
           nil
         }
