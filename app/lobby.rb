@@ -56,7 +56,7 @@ class Lobby < Ohm::Model
 
   def game_state
     {
-      "vertices" => vertices.map { |vertex| vertex.reject { |a| a == "portable" } },
+      "vertices" => (vertices || []).map { |vertex| vertex.reject { |a| a == "portable" } },
       "players" => players.map(&:to_hash_with_geo_coordinates),
       "is_finished" => finished?
     }
